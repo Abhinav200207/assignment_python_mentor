@@ -86,6 +86,39 @@ blocks = contiguous_blocks(arr, 3)
 for b in blocks:
     print(b)
 
+# 6
+class SymmetricArray(np.ndarray):
+    def __setitem__(self, idx, value):
+        i, j = idx
+        super().__setitem__((i, j), value)
+        super().__setitem__((j, i), value)
+
+z = np.zeros((4, 4)).view(SymmetricArray)
+z[0, 1] = 5
+print(z)
+
+# 7
+def sum_matrix_products(matrices, vectors):
+    result = np.zeros_like(vectors[0])
+    for i in range(len(matrices)):
+        result += matrices[i] @ vectors[i]
+    return result
+
+m = [np.eye(3), np.eye(3)]
+v = [np.ones((3, 1)), np.ones((3, 1))]
+print(sum_matrix_products(m, v))
+
+# 8
+def block_sum(arr, block_size):
+    res = np.zeros((arr.shape[0] // block_size, arr.shape[1] // block_size))
+    for i in range(0, arr.shape[0], block_size):
+        for j in range(0, arr.shape[1], block_size):
+            res[i//block_size, j//block_size] = arr[i:i+block_size, j:j+block_size].sum()
+    return res
+
+z = np.random.randint(0, 10, (16, 16))
+print(block_sum(z, 4))
+
 # 10
 print("="*60)
 def n_largest(arr, n):
@@ -94,6 +127,35 @@ def n_largest(arr, n):
 
 z = [19,45,3,3,76,4,5,23,65,98,55,13]
 print(n_largest(z, 5))
+
+# 11
+def cartesian_product(*arrays):
+    result = [[]]
+    for arr in arrays:
+        result = [x + [y] for x in result for y in arr]
+    return result
+
+x = [1, 2]
+y = [3, 4]
+z = [5, 6]
+print(cartesian_product(x, y, z))
+
+# 12
+import numpy as np
+
+z = np.array([(1, 2.0, 'Hello'), (2, 3.0, 'World')])
+r = np.core.records.fromarrays(z.T, names='a,b,c', formats='i4,f4,S10')
+print(r)
+
+# 13
+z = np.array([2,5,7,12,4])
+z1 = z ** 3
+z2 = np.power(z, 3)
+z3 = np.empty_like(z)
+for i in range(len(z)):
+    z3[i] = z[i] * z[i] * z[i]
+
+print(z1, z2, z3)
 
 # 14
 print("="*60)
@@ -172,6 +234,21 @@ summed = np.einsum('i', a)
 mult = np.einsum('i,i->i', a, b)
 
 print(inner, outer, summed, mult)
+
+# 19
+x = np.linspace(0, 10, num=100)
+y = np.sin(x)
+
+def sample_path(x, y, n_samples):
+    distance = np.cumsum(np.sqrt(np.diff(x)**2 + np.diff(y)**2))
+    distance = np.insert(distance, 0, 0)
+    points = np.linspace(0, distance[-1], n_samples)
+    new_x = np.interp(points, distance, x)
+    new_y = np.interp(points, distance, y)
+    return new_x, new_y
+
+print(sample_path(x, y, 10))
+
 
 # 20
 print("="*60)
