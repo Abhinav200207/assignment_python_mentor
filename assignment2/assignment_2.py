@@ -42,36 +42,4 @@ print("Identity Matrix:")
 for row in identity:
     print(row)
 
-# 3
-print("="*60)
-# def magic_square(n):
-#     magic = [[0] * n for _ in range(n)]
-
-#     r, c = 0, n // 2
-#     for num in range(1, n * n + 1):
-#         magic[r][c] = num
-
-#         prev_r, prev_c = r, c
-
-#         r -= 1
-#         c += 1
-
-
-#         if r == -1:
-#             r = n - 1
-#         if c == n:
-#             c = 0
-
-
-#         if magic[r][c] != 0:
-#             r, c = prev_r + 1, prev_c
-#             if r == n:
-#                 r = 0
-
-#     return magic
-
-# n = 3
-# magic = magic_square(n)
-# for row in magic:
-#     print(row)
 
